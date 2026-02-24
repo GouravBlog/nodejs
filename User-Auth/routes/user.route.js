@@ -9,7 +9,7 @@ router.route("/registration").post(userRegistration);
 router.route("/login").post(userLogin);
 
 router.route("/user").get(requireSignin, function (req, res) {
-    console.log("user Route");
+    // console.log("user Route");
     res.send({ message: "User Route" });
 });
 
