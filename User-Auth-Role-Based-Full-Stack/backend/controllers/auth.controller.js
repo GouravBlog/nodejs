@@ -58,7 +58,14 @@ export const userLogin = async (req, res) => {
             expiresIn: "1h"
         });
 
-        res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 60 * 60 * 1000
+        });
+
+
 
         res.status(200).send({ message: "user login succesfully", user: alreadyExist, token });
 
