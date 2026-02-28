@@ -8,13 +8,14 @@ import userRouter from "./routes/user.routes.js";
 import categoryRouter from "./routes/category.routes.js";
 import productRouter from "./routes/products.routes.js";
 import orderRouter from "./routes/order.routes.js"
-
+import cookieParser from "cookie-parser";
 import cors from "cors";
 
 
 // Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 app.use("/api/auth/", userRouter);
 app.use('/api/category', categoryRouter);
