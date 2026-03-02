@@ -4,10 +4,13 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
+import Headers from "./Components/Headers";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
     <>
+      <Headers />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Register />} />
@@ -15,6 +18,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
+      {/* <Footer /> */}
     </>
   );
 }

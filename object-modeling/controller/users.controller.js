@@ -67,7 +67,7 @@ export const userLogin = async (req, res) => {
             maxAge: 60 * 60 * 1000
         })
 
-        res.status(200).send({ status: true, messgae: 'user Login Succesfully', user: exist_user, token });
+        res.status(200).send({ status: true, messgae: 'user Login Succesfully', user: exist_user, token, });
 
     } catch (error) {
         console.log(error);
@@ -130,5 +130,23 @@ export const userProfileController = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(400).send({ status: false, messgae: 'user registration', error: error.messgae });
+    }
+}
+
+export const userProfilePictureController = async (req, res) => {
+    try {
+        const { id } = req.params;
+        let user = await userModel.findById(id).select("photo");
+        if (!user) {
+            return res.status(401).send({ status: false, messgae: 'User data not found' });
+        }
+        console.log("user", user);
+        if (user.photo.data) {
+            res.set("Content-Type", user.photo.contentType);
+            res.status(200).send(user.photo.data);
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ status: false, messgae: 'user Profile Picture Error', error: error.messgae });
     }
 }

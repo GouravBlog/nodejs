@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 const Register = () => {
   const navigate = useNavigate();
   const [fullname, setFullName] = useState("");
@@ -84,6 +84,9 @@ const Register = () => {
           <input type="file" onChange={(e) => setPhoto(e.target.files[0])} />
         </div>
         <button type="submit">Signup</button>
+        <span>
+          Already Registered <NavLink to="/login"> Login</NavLink>
+        </span>
       </form>
     </>
   );
