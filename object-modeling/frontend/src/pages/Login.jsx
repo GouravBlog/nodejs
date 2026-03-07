@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -6,6 +7,28 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  let [logedIn, setLogedIn] = useState(false);
+  let [token, setToken] = useState("");
+
+  async function CheckAuthentication() {
+    try {
+      let data = await fetch("http://localhost:7000/api/auth/check-auth", {
+        credentials: "include",
+      });
+      data = await data.json();
+      setLogedIn(data.userLogedIn);
+      setToken(data.token);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+      setLogedIn(false);
+    }
+  }
+
+  useEffect(() => {
+    CheckAuthentication();
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,8 +45,9 @@ const Login = () => {
       console.log("data", data);
       toast.success(data.messgae);
       navigate("/");
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      setLogedIn(true);
+      setToken(token);
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toast.error(error.message);

@@ -1,11 +1,34 @@
+import { useState } from "react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Headers = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+
+  let [logedIn, setLogedIn] = useState(false);
+  let [user, setUser] = useState("");
+  let [token, setToken] = useState("");
+
+  async function CheckAuthentication() {
+    try {
+      let data = await fetch("http://localhost:7000/api/auth/check-auth", {
+        credentials: "include",
+      });
+      data = await data.json();
+      setLogedIn(data.userLogedIn);
+      setUser(data.user);
+      setToken(data.token);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+      setLogedIn(false);
+    }
+  }
+
+  useEffect(() => {
+    CheckAuthentication();
+  }, []);
 
   async function handleLogout() {
     try {
@@ -13,9 +36,11 @@ const Headers = () => {
         credentials: "include",
       });
       data = await data.json();
-      navigate("/login");
       toast.success(data.messgae);
-      localStorage.removeItem("token");
+      setToken("");
+      setLogedIn(false);
+      navigate("/login");
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -34,7 +59,7 @@ const Headers = () => {
           </a>
 
           <div>
-            {!token ? (
+            {!logedIn ? (
               <>
                 <button
                   className="btn btn-primary"

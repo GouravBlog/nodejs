@@ -81,9 +81,11 @@ export const userLogout = async (req, res) => {
         res.status(200).send({ status: true, messgae: 'user Logout Succesfully' });
     } catch (error) {
         console.log(error);
-        res.status(400).send({ status: false, messgae: 'user registration', error: error.messgae });
+        res.status(400).send({ status: false, messgae: 'Logout Failed', error: error.messgae });
     }
 }
+
+
 
 export const forgotPassword = async (req, res) => {
     try {
@@ -140,7 +142,6 @@ export const userProfilePictureController = async (req, res) => {
         if (!user) {
             return res.status(401).send({ status: false, messgae: 'User data not found' });
         }
-        console.log("user", user);
         if (user.photo.data) {
             res.set("Content-Type", user.photo.contentType);
             res.status(200).send(user.photo.data);
@@ -148,5 +149,63 @@ export const userProfilePictureController = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(400).send({ status: false, messgae: 'user Profile Picture Error', error: error.messgae });
+    }
+}
+
+// export const checkAuth = async (req, res) => {
+//     try {
+//         let token = req.cookies.token;
+//         console.log("token", token);
+
+//         let decode = jwt.verify(token, process.env.JWT_SECRET);
+
+//         if (!decode) {
+//             return res.status(200).send({ status: true, userLogedIn: false, message: "Unautohorized User" });
+//         }
+
+//         req.user = decode;
+
+//         let user = await userModel.findById(decode._id).select("-photo");
+
+//         res.status(200).send({ status: true, message: "User authentication succesfully", userLogedIn: true, user, token });
+//     } catch (error) {
+//         console.log(error.messgae);
+//         res.status(400).send({ status: false, userLogedIn: false })
+//     }
+// }
+
+
+export const checkAuth = async (req, res) => {
+    try {
+
+        let token = req.cookies.token;
+
+        if (!token) {
+            return res.status(200).send({
+                status: true,
+                userLogedIn: false,
+                message: "User not logged in"
+            });
+        }
+
+        let decode = jwt.verify(token, process.env.JWT_SECRET);
+
+        let user = await userModel.findById(decode._id).select("-photo");
+
+        res.status(200).send({
+            status: true,
+            message: "User authenticated successfully",
+            userLogedIn: true,
+            user,
+            token
+        });
+
+    } catch (error) {
+
+        res.status(200).send({
+            status: false,
+            userLogedIn: false,
+            message: "Unauthorized User"
+        });
     }
 }

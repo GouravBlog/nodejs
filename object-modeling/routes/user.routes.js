@@ -1,5 +1,5 @@
 import express from "express";
-import { forgotPassword, userLogin, userLogout, userProfileController, userProfilePictureController, userRegistration } from "../controller/users.controller.js";
+import { checkAuth, forgotPassword, userLogin, userLogout, userProfileController, userProfilePictureController, userRegistration } from "../controller/users.controller.js";
 const router = express.Router();
 import expressFormidable from "express-formidable";
 
@@ -10,5 +10,6 @@ router.route("/logout").get(userLogout);
 router.route("/forgot-password").post(forgotPassword);
 router.route("/profile/:id").get(userProfileController);
 router.get("/profilePicture/:id", userProfilePictureController);
+router.route("/check-auth").get(checkAuth);
 
 export default router;
