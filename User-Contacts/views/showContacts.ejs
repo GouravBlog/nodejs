@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <h1>
+        <%= message %>
+    </h1>
+
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <th scope="col">First Namw</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Mobile</th>
+                <th scope="col">Address</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% Con.forEach(function(contact){ %>
+                <tr>
+                    <th scope="row">
+                        <a href="/show-contact/<%= contact._id %>">
+                            <%= contact.first_name %>
+                        </a>
+                    </th>
+                    <td>
+                        <%= contact.last_name %>
+                    </td>
+                    <td>
+                        <%= contact.email %>
+                    </td>
+                    <td>
+                        <%= contact.mobile %>
+                    </td>
+                    <td>
+                        <%= contact.address %>
+                    </td>
+                    <td>
+                        <a href="/update-contact/<%= contact._id %>">Edit</a>
+                        <a href="/delete-contact/<%= contact._id %>">Delete</a>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+</body>
+
+</html>
