@@ -1,18 +1,29 @@
-import { useMemo, useState } from "react";
-import { useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
 function App() {
-  let socket = useMemo(() => io("http://localhost:1000"), []);
+  let socket = useMemo(
+    () =>
+      io("http://localhost:1000", {
+        withCredentials: true,
+      }),
+    [],
+  );
+
   const [message, setMessage] = useState("");
+  const [socketID, setSocketID] = useState();
+  const [room, setRoom] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
-    // socket.on("welcome", (data) => {
-    //   console.log(data);
-    // });
+    socket.on("welcome", (data) => {
+      setSocketID(socket.id);
+    });
 
     socket.on("received-message", (data) => {
       console.log(data);
+      setMessages((messages) => [...messages, data]);
     });
     return () => {
       socket.disconnect();
@@ -22,8 +33,18 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
     try {
-      socket.emit("message", message);
-      // setMessage("");
+      socket.emit("message", { room, message });
+      setMessage("");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleGroup(e) {
+    e.preventDefault();
+    try {
+      socket.emit("join-room", roomName);
+      setRoomName("");
     } catch (error) {
       console.log(error);
     }
@@ -34,6 +55,21 @@ function App() {
     <>
       <h1>App Component</h1>
 
+      {<h3>{socketID}</h3>}
+
+      <form onSubmit={handleGroup}>
+        <div>
+          <label htmlFor="">Group Name:</label>
+          <input
+            type="text"
+            placeholder="Enter Group Name"
+            value={roomName}
+            onChange={(e) => setRoomName(e.target.value)}
+          />
+          <button type="submit">Send</button>
+        </div>
+      </form>
+
       <form onSubmit={handleSubmit}>
         <div>
           <input
@@ -42,9 +78,23 @@ function App() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
+          <input
+            type="text"
+            placeholder="Enter sender ID"
+            value={room}
+            onChange={(e) => setRoom(e.target.value)}
+          />
         </div>
         <button type="submit">Send</button>
       </form>
+
+      {
+        <div>
+          {messages.map((m) => (
+            <div>{m}</div>
+          ))}
+        </div>
+      }
     </>
   );
 }
