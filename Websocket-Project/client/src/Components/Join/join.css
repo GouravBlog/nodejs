@@ -1,0 +1,51 @@
+.join-page {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.join-container {
+  margin-top: 100px;
+  text-align: center;
+  width: 500px;
+  height: 500px;
+  border-radius: 5px;
+  /* border: 1px solid #fff;s */
+  padding: 10px;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; */
+}
+
+.join-container input {
+  width: 70%;
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: crimson;
+}
+
+.join-container button {
+  background-color: crimson;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  width: 20%;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.join-container button:hover {
+  background-color: rgb(160, 11, 41);
+}

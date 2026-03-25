@@ -1,0 +1,51 @@
+.chatpage {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-container {
+  width: 500px;
+  height: 500px;
+  border: 1px solid #fff;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.header {
+  height: 15%;
+  background-color: blue;
+}
+
+.chats {
+  height: 70%;
+}
+
+.footer {
+  height: 15%;
+}
+
+.footer input {
+  width: 71%;
+  padding: 10px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 15px;
+  outline: none;
+  border-radius: 3px;
+}
+.footer button {
+  width: 20%;
+  margin: 0px 10px;
+  background-color: blue;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}

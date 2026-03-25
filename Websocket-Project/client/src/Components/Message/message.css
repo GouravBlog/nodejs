@@ -1,0 +1,20 @@
+.chat {
+  color: #fff;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 3px;
+  margin: 10px;
+  clear: both;
+}
+
+.right {
+  float: right;
+  background-color: blue;
+  text-align: right;
+}
+
+.left {
+  background-color: gray;
+  text-align: left;
+  float: left;
+}
